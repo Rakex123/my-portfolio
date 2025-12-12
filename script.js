@@ -1,25 +1,34 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Project filtering
-    const filterButtons = document.querySelectorAll('.project-filter button');
-    const projects = document.querySelectorAll('.project-container .project');
 
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const filter = button.getAttribute('data-filter');
+    // Typing animation
+    const typingElement = document.querySelector('.typing');
+    const text = "Rakesh Khushal Sahu";
+    let index = 0;
 
-            // Set active class on button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
+    function type() {
+        if (index < text.length) {
+            typingElement.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, 150); // Adjust typing speed here
+        } else {
+            // Optional: restart typing animation after a delay
+            // setTimeout(() => {
+            //     typingElement.textContent = '';
+            //     index = 0;
+            //     type();
+            // }, 5000);
+        }
+    }
 
-            // Filter projects
-            projects.forEach(project => {
-                const category = project.getAttribute('data-category');
-                if (filter === 'all' || filter === category) {
-                    project.style.display = 'block';
-                } else {
-                    project.style.display = 'none';
-                }
+    type();
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
         });
     });
@@ -31,35 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        // In a real application, you would send this data to a server.
-        // For this prototype, we'll just show a success message.
+        // Simulate form submission
         formStatus.textContent = 'Thank you for your message! I will get back to you soon.';
         formStatus.style.color = 'green';
         contactForm.reset();
 
-        // You could use the fetch API to send the form data to a backend:
-        /*
-        const formData = new FormData(contactForm);
-        fetch('/api/contact', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                formStatus.textContent = 'Message sent successfully!';
-                formStatus.style.color = 'green';
-                contactForm.reset();
-            } else {
-                formStatus.textContent = 'Something went wrong. Please try again.';
-                formStatus.style.color = 'red';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            formStatus.textContent = 'Something went wrong. Please try again.';
-            formStatus.style.color = 'red';
-        });
-        */
+        setTimeout(() => {
+            formStatus.textContent = '';
+        }, 5000);
     });
 });
